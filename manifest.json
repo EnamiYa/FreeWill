@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+    "name": "TikTok Skipper",
+    "version": "1.0",
+    "content_scripts": [
+      {
+        "matches": ["https://www.tiktok.com/*"],
+        "js": ["content.js"]
+      }
+    ],
+    "permissions": [
+      "activeTab"
+    ]
+  }
