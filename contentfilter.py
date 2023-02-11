@@ -1,4 +1,8 @@
 import openai
+import flask
+import json
+
+app = flask.Flask(__name__)
 
 # Load the GPT-3 language model
 openai.api_key = "YOUR_API_KEY"
@@ -29,10 +33,11 @@ def is_related(input_text, keywords, cache):
     cache[input_text] = result
     return result
 
-def filter_content(filename, keywords):
-    # Read the input text from a text file
-    with open(filename, "r") as input_file:
-        input_lines = input_file.readlines()
+@app.route("/filter_content", methods=["POST"])
+def filter_content_endpoint():
+    # Parse the incoming JSON data
+    data = json.loads(flask.request.data.decode("utf-8"))
+    keywords = data["keywords"]
 
     # Tokenize the keywords
     keyword_tokens = [model.tokenizer.tokenize(keyword) for keyword in keywords]
@@ -41,8 +46,11 @@ def filter_content(filename, keywords):
     cache = {}
     
     # Filter the input text
-    for input_line in input_lines:
-        input_text = input_line.strip()
+    for input_text in data["input_texts"]:
         if match_text_to_keywords(input_text, keyword_tokens) or is_related(input_text, keywords, cache):
-            return False
-    return True
+            return json.dumps(False), 200, {"Content-Type": "application/json"}
+    
+    return json.dumps(True), 200, {"Content-Type": "application/json"}
+
+if __name__ == "__main__":
+    app.run()
