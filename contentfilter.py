@@ -1,5 +1,5 @@
 import openai
-import flask
+from flask import Flask
 import json
 
 app = flask.Flask(__name__)
