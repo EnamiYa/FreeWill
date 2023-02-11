@@ -1,14 +1,24 @@
 {
     "manifest_version": 2,
-    "name": "TikTok Skipper",
-    "version": "1.0",
+    "name": "Free Will",
+    "version": "1.0.0",
+    "description": "TikTok Feed Regulator",
+    "browser_action": {
+        "default_title": "Free Will",
+        "default_icon": "tiktokblock.png", 
+        "default_popup": "popup.html" 
+      },
+      "background": {
+        "scripts": ["content.js"],
+        "css": ["popup.css"],
+        "persistent": false
+      },
     "content_scripts": [
       {
         "matches": ["https://www.tiktok.com/*"],
+        "css": ["popup.css"],
         "js": ["content.js"]
       }
     ],
-    "permissions": [
-      "activeTab"
-    ]
+    "permissions": ["activeTab"]
   }
