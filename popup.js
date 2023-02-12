@@ -1,6 +1,31 @@
 var countBox = 2;
 var boxName = 0;
 
+const submitButton = document.getElementById('submitButton');
+let inputField = document.getElementById('Filters');
+
+submitButton.addEventListener('click', function() {
+    // Get the value of the input field
+    const inputValue = inputField.value;
+    inputField.value = "";
+  
+    // Save the input value in Chrome local storage
+    function getKeywords(callback) {
+        chrome.storage.local.get({key: []}, function(result) {
+            var keywords = result.key || [];
+            callback(keywords);
+        });
+    }
+    getKeywords(function(keywords) {
+    if(inputValue === "reset"){
+        keywords = [];
+    }else{
+        keywords.push(inputValue);
+    }
+    chrome.storage.local.set({ key : keywords });
+    });
+  });
+/*
 function addInput()
 {
     var boxLabel = "<label>Company " + countBox + "</label>";
@@ -18,3 +43,5 @@ function appendHtml(el, str) {
         el.appendChild(div.children[0]);
     }
 }
+*/
+
